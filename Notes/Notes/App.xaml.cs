@@ -1,18 +1,30 @@
-﻿using System;
+﻿using Notes.Data;
+using System;
 using System.IO;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Notes
 {
     public partial class App : Application
     {
+        static NoteDatabase database;
+
+        public static NoteDatabase Database
+        {
+            get
+            {
+                if (database == null)
+                {
+                    database = new NoteDatabase(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Notes.db3"));
+                }
+                return database;
+            }
+        }
         public static string FolderPath { get; private set; }
 
         public App()
         {
             InitializeComponent();
-            FolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
             MainPage = new NavigationPage(new NotesPage());
 
         }
